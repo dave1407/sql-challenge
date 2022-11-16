@@ -2,23 +2,7 @@
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 -- Pewlett Hackard
--- Employees Database
-
-DROP TABLE IF EXISTS dept_manager;
-
--- List of employees personal information
-CREATE TABLE "employees" (
-    "emp_no"  SERIAL  NOT NULL,
-    "emp_title_id" varchar   NOT NULL,
-    "birth_date" date   NOT NULL,
-    "first_name" varchar   NOT NULL,
-    "last_name" varchar   NOT NULL,
-    "sex" varchar(1)   NOT NULL,
-    "hire_date" date   NOT NULL,
-    CONSTRAINT "pk_employees" PRIMARY KEY (
-        "emp_no"
-     )
-);
+-- EmployeeDB
 
 -- List of company departments
 CREATE TABLE "departments" (
@@ -32,7 +16,7 @@ CREATE TABLE "departments" (
     )
 );
 
--- List of company employee titles
+-- List of company departments
 CREATE TABLE "titles" (
     "title_id" varchar   NOT NULL,
     "title" varchar   NOT NULL,
@@ -44,13 +28,27 @@ CREATE TABLE "titles" (
     )
 );
 
--- Department assignment for each employee
+-- List of employees with personal information
+CREATE TABLE "employees" (
+    "emp_no"  SERIAL  NOT NULL,
+    "emp_title_id" varchar   NOT NULL,
+    "birth_date" date   NOT NULL,
+    "first_name" varchar   NOT NULL,
+    "last_name" varchar   NOT NULL,
+    "sex" char(1)   NOT NULL,
+    "hire_date" date   NOT NULL,
+    CONSTRAINT "pk_employees" PRIMARY KEY (
+        "emp_no"
+     )
+);
+
+-- List of employees per department
 CREATE TABLE "dept_emp" (
     "emp_no" int   NOT NULL,
     "dept_no" varchar   NOT NULL
 );
 
--- Managers assignment for each department
+-- List of managers per department
 CREATE TABLE "dept_manager" (
     "dept_no" varchar   NOT NULL,
     "emp_no" int   NOT NULL,
@@ -59,10 +57,10 @@ CREATE TABLE "dept_manager" (
      )
 );
 
--- Salary assignment for each employee
+-- List of salary per employee
 CREATE TABLE "salaries" (
     "emp_no" int   NOT NULL,
-    "salary" int   NOT NULL,
+    "salary" money   NOT NULL,
     CONSTRAINT "pk_salaries" PRIMARY KEY (
         "emp_no"
      )
@@ -86,9 +84,12 @@ REFERENCES "employees" ("emp_no");
 ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
 REFERENCES "employees" ("emp_no");
 
+
+
 SELECT * FROM departments
 SELECT * FROM dept_emp
 SELECT * FROM dept_manager
 SELECT * FROM employees
 SELECT * FROM salaries
 SELECT * FROM titles
+
